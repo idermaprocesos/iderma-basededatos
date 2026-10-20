@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="IdermaBaseDatos.Pages.InicioPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Padding="32,24" Spacing="12" MaxWidth="760" HorizontalAlignment="Left">
+        <TextBlock Style="{StaticResource TituloPaginaStyle}" Text="Base de datos" />
+        <TextBlock Style="{StaticResource SubtituloPaginaStyle}" Text="Aquí se autorizan o se rechazan las acciones sensibles que piden las otras aplicaciones." />
+        <TextBlock TextWrapping="Wrap" Text="Si en Logística alguien quiere borrar más del 10 % de los productos del inventario, esa app le pide su contraseña y envía la solicitud a Notificaciones. El inventario no cambia hasta que aquí se autorice." />
+        <Button Click="VerNotificaciones_Click" Content="Ver notificaciones" Style="{StaticResource AccentButtonStyle}" />
+    </StackPanel>
+</Page>

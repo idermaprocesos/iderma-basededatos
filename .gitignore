@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+*.user
+installer/payload/
+installer/bin/
+installer/obj/
+**/publish/
+msix/

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="IdermaBaseDatos.Pages.NotificacionesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:models="using:IdermaBaseDatos.Models">
+
+    <Grid Padding="24,8,24,12" RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Spacing="4">
+                <TextBlock Style="{StaticResource TituloPaginaStyle}" Text="Notificaciones" />
+                <TextBlock
+                    Style="{StaticResource SubtituloPaginaStyle}"
+                    Text="Solicitudes de otras apps. Autoriza o deniega con un motivo. El borrado de inventario solo ocurre en Logística después de autorizarlo." />
+                <TextBlock x:Name="TextoConteo" Opacity="0.72" Text="0 notificaciones" />
+            </StackPanel>
+            <Button
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Click="Imprimir_Click"
+                Content="Imprimir"
+                Style="{StaticResource AccentButtonStyle}" />
+        </Grid>
+
+        <InfoBar
+            x:Name="BarraEstado"
+            Grid.Row="1"
+            IsClosable="True"
+            IsOpen="False" />
+
+        <Grid Grid.Row="2" ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="220" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="CajaBusqueda"
+                PlaceholderText="Buscar por folio, persona, producto o motivo"
+                TextChanged="CajaBusqueda_TextChanged" />
+            <ComboBox
+                x:Name="ComboEstado"
+                Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                SelectionChanged="Filtro_Changed" />
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <ListView
+                x:Name="ListaNotificaciones"
+                SelectionMode="None">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="Padding" Value="0,0,0,4" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SolicitudAprobacion">
+                        <Border
+                            Padding="12,4"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{ThemeResource OverlayCornerRadius}">
+                            <Grid RowSpacing="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Center" Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind Folio}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.72"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind FechaTexto}" />
+                                    <Border
+                                        Grid.Column="2"
+                                        Padding="8,2"
+                                        Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+                                        CornerRadius="{ThemeResource ControlCornerRadius}">
+                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind EstadoTexto, Mode=OneWay}" />
+                                    </Border>
+                                </Grid>
+
+                                <TextBlock Grid.Row="1" Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind TituloAccion}" />
+                                <TextBlock Grid.Row="2" Opacity="0.85" Text="{x:Bind Resumen}" TextWrapping="Wrap" />
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Opacity="0.72"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind Detalle}"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Opacity="0.8"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind ResumenRespuesta, Mode=OneWay}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{x:Bind EstaRespondida, Mode=OneWay}" />
+
+                                <StackPanel
+                                    Grid.Row="5"
+                                    Orientation="Horizontal"
+                                    Spacing="8"
+                                    Visibility="{x:Bind EstaPendiente, Mode=OneWay}">
+                                    <Button
+                                        Click="Autorizar_Click"
+                                        Content="Autorizar"
+                                        Style="{StaticResource AccentButtonStyle}" />
+                                    <Button Click="Denegar_Click" Content="Denegar" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBlock
+                x:Name="TextoVacio"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Opacity="0.7"
+                Text="Aún no hay solicitudes de autorización."
+                Visibility="Collapsed" />
+        </Grid>
+    </Grid>
+</Page>
